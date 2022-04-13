@@ -1,10 +1,10 @@
 class ProductPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
-    def resolve
-      scope.all
+      def resolve
+        scope.all
+      end
     end
-
     def index?
       true
     end
@@ -33,9 +33,13 @@ class ProductPolicy < ApplicationPolicy
       is_admin?
     end
 
+    def import?
+      is_admin?
+    end
+
     private
 
     def is_admin?
-      @user.is_admin
+      @user.admin
     end
 end
