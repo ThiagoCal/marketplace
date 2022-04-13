@@ -1,0 +1,36 @@
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="card d-flex align-items-center">
+      <%= form_tag import_products_path, multipart: true, class: "d-flex" do %>
+        <%= file_field_tag :file, required: true, accept: 'application/json', class: "form-control" %>
+        <%= submit_tag "import", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+    <div class="card">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Filename</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% @products.each do |product| %>
+            <th scope="row"><%= product["id"] %></th>
+            <td><%= link_to product["name"], product, class: "text-decoration-none" %></td>
+            <td><%= product["description"] %></td>
+            <td><%= product["price"] %></td>
+            <td><%= product["photo"] %></td>
+            <td><%= link_to "Delete", product, method: :delete, data: {confirm: "Are you sure?"} %> <%= link_to "Edit", edit_product_path(product) %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
