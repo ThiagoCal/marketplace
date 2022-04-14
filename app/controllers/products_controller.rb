@@ -2,7 +2,7 @@ require "json"
 require "byebug"
 
 class ProductsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :index, :import]
+  skip_before_action :authenticate_user!, only: [:show, :index]
 
   def index
     @products = policy_scope(Product)
@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
     products = JSON.parse(@file)
     products.each do |product|
       puts product
-      @product = Product.new(name: product["title"], description: product["description"], price: product["price"], photo: product["filename"])
+      @product = Product.new(name: product["title"], description: product["description"], price: product["price"])
       @product.user = current_user
       authorize @product
       @product.save
@@ -59,6 +59,6 @@ class ProductsController < ApplicationController
 
   private
     def product_params
-      params.require(:product).permit(:user_id, :name, :photo, :description, :price, :category, :available)
+      params.require(:product).permit(:user_id, :name, :photo, :description, :price, :available)
     end
 end
